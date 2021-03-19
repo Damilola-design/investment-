@@ -14,7 +14,7 @@
                 <h1 class="mb-3">
                     Primrose path capital | Earn Up To 72%
                 </h1>
-                <p class="lead">Primrose path capital  creates the opportunity for everyone to earn 10%, 20% and 30% return on investment over a period of 20 working days with as low as #50,000.</p>
+                <p class="text-justify lead">Primrose path capital  creates the opportunity for everyone to earn 10%, 20% and 30% return on investment over a period of 20 working days with as low as #50,000.</p>
               </div>
               <a class="btn btn-primary btn-wide transition-3d-hover" href="{{ route('dashboard') }}">Get Started</a>
             </div>
@@ -165,7 +165,7 @@
         <!-- Title -->
         <div class="mb-5 text-center w-md-80 w-lg-60 mx-md-auto mb-md-9">
             <h2>WHY CHOOSE US</h2>
-            <p>With interest return as high as 30% in 20 working days, Primrose path capital  is where you should invest.</p>
+            <p class="text-justify">With interest return as high as 30% in 20 working days, Primrose path capital  is where you should invest.</p>
         </div>
         <!-- End Title -->
 
@@ -175,7 +175,7 @@
             <div class="card h-100 transition-3d-hover">
               <div class="card-body">
                 <h4 class="text-lh-sm">Reliability</h4>
-                <p class="font-size-1 justify-content">With over 20,000 consultants subscribed to our platform and over 4 years of successful real estate dealings, We can confidently say your investment is safe with us and can count on us</p>
+                <p class="text-justify font-size-1 justify-content">With over 20,000 consultants subscribed to our platform and over 4 years of successful real estate dealings, We can confidently say your investment is safe with us and can count on us</p>
               </div>
             </div>
             <!-- End Team -->
@@ -186,7 +186,7 @@
             <div class="card h-100 transition-3d-hover">
               <div class="card-body">
                 <h4 class="text-lh-sm">Transparency</h4>
-                <p class="font-size-1">We will be providing you with steady weekly details on your investment. Also through your account created on our website, you can easily access your information as well as monitor the growth of your investment.</p>
+                <p class="text-justify font-size-1">We will be providing you with steady weekly details on your investment. Also through your account created on our website, you can easily access your information as well as monitor the growth of your investment.</p>
               </div>
             </div>
             <!-- End Team -->
@@ -197,7 +197,7 @@
             <div class="card h-100 transition-3d-hover">
               <div class="card-body">
                 <h4 class="text-lh-sm">Timely Delivery</h4>
-                <p class="font-size-1">Based on your preferred  investment duration, your capital and accrued investment will be readily available for collection once your investment is mature.</p>
+                <p class="text-justify font-size-1">Based on your preferred  investment duration, your capital and accrued investment will be readily available for collection once your investment is mature.</p>
               </div>
             </div>
             <!-- End Team -->
@@ -208,7 +208,7 @@
             <div class="card h-100 transition-3d-hover">
               <div class="card-body">
                 <h4 class="text-lh-sm">High Returns</h4>
-                <p class="font-size-1">With interest returns as high as 72%, Landvest is where you should be investing.</p>
+                <p class="text-justify font-size-1">With interest returns as high as 72%, Landvest is where you should be investing.</p>
               </div>
             </div>
             <!-- End Team -->
@@ -221,7 +221,7 @@
       <div class="row mx-n2">
         <div class="mb-5 mb-md-7">
             <h2 class="mb-3">Real Estate Investment Is An Excellent Hedge Against Inflation</h2>
-            <p>inflation affects the prices of properties positively, causing the investment value to increase. Hence, real estate investors in Nigeria are protected from both short-term and long-term negative effects of inflation. With real estate investments, one can generate as much passive income as possible. Regardless of the employment status of the investor, profit will always roll in</p>
+            <p class="text-justify">inflation affects the prices of properties positively, causing the investment value to increase. Hence, real estate investors in Nigeria are protected from both short-term and long-term negative effects of inflation. With real estate investments, one can generate as much passive income as possible. Regardless of the employment status of the investor, profit will always roll in</p>
           </div>
         <div class="px-2 mb-3 col-6 col-md">
           <div class="h-250rem bg-img-hero" style="background-image: url(assets/img/480x320/img17.jpg);"></div>

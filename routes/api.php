@@ -23,4 +23,8 @@ Route::get('/', function () {
 });
 
 Route::post('/register-user', 'profileController@register');
+Route::post('/save', 'profileController@save');
+// Route::post('/save', function(Request $request){
+//     return $request;
+// });
 

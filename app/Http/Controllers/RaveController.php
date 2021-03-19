@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 use App\TransactionHistory;
+use App\Transaction_histories;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use App\Rave;
+use Rave;
 
 
 class RaveController extends Controller
@@ -16,7 +17,6 @@ class RaveController extends Controller
 */
 
     public function initialize() {
-
         request()->validate([
             'phone' => 'sometimes|required|min:11|starts_with:0',
             'category' => 'sometimes|required|string',
@@ -29,7 +29,7 @@ class RaveController extends Controller
             request()->request->add(['user_id' => auth()->user()->id]);
             request()->request->add(['ref' => uniqid($transactionPrefix)]);
 
-            TransactionHistory::create(request()->all());
+            Transaction_histories::create(request()->all());
 
             Rave::initialize(route('callback'));
     }
@@ -38,7 +38,7 @@ class RaveController extends Controller
         $data = Rave::receiveWebhook();
         $txref = $data['txRef'];
         if ($data['status'] == 'successful') {
-        $transaction = TransactionHistory::where('ref', $txref)- >first();
+        $transaction = Transaction_histories::where('ref', $txref)->first();
         $user = User::whereId($transaction->user_id)->first();
         //give your user value here
         $transaction->update([
@@ -55,7 +55,7 @@ class RaveController extends Controller
             $txref = $res_json->data->data->txRef;
             $data = Rave::verifyTransaction($txref);
             $chargeResponsecode = $data->data->chargecode;
-            $transaction = TransactionHistory::where('ref', $txref)->first();
+            $transaction = Transaction_histories::where('ref', $txref)->first();
             if (($chargeResponsecode == "00" || $chargeResponsecode == "0")) {
             $user = User::whereId($transaction->user_id)->first();
             $referred_by = '';

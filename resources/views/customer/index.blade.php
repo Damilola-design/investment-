@@ -1,14 +1,13 @@
 @extends('customer.layouts.app')
 
 
-
 @section('content')
-    <div class=" row" style="margin-top: 100px">
-        <div class="col-md-2 ">
-            @component('customer.layouts.menus.sidebar')
+<div class=" row" style="margin-top: 100px">
+    <div class="col-md-2 ">
+        @component('customer.layouts.menus.sidebar')
 
-            @endcomponent
-        </div>
+        @endcomponent
+    </div>
         <div class="col-md-8 col-sm-12 main_menu_side hidden-print main_menu">
             <div class="mb-5 col-12 col-sm-12 py-lg-5">
                 <div class="position-relative">
@@ -25,7 +24,11 @@
                                         <div class="card">
                                             <div class="card-header text-dark bold">Current Balance</div>
                                             <div class="card-body">
-                                                <h4 class="text-center text-success h1">#0.00</h4>
+                                                @if(!empty($profile))
+                                                <h4  class="text-center text-success h1">₦ {{ $profile->amount }} </h4>
+                                                @else
+                                                <h4 class="text-center text-success h1">₦0.00 </h4>
+                                                @endif
                                             </div>
                                         </div>
                                     </div>
@@ -35,7 +38,11 @@
                                 <div class="p-1 mt-5 mb-5 row">
                                     <div class="col-lg-6 col-md-8 col-sm-12">
                                     <div class="border rounded shadow card-body">
-                                        <p class="text">Your Active Subscriptions:</p>
+                                        @if(!empty($profile))
+                                        <p class="text h5">Your Active Subscriptions: {{ $profile->plan }}</p>
+                                        @else
+                                        <p class="text h5">Your Active Subscriptions:  <span class="text-sm">Add a plan<span></p>
+                                        @endif
                                     </div>
                                 </div>
                             </div>
@@ -57,3 +64,7 @@
              </div>
         </div>
 @endsection
+
+  <script src="{{ asset('js/count.js') }}"></script>
+
+

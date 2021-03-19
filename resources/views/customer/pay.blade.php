@@ -1,23 +1,130 @@
-{{-- @php
-$array = array(array('metaname' => 'color', 'metavalue' => 'blue'),
-                array('metaname' => 'size', 'metavalue' => 'big'));
-@endphp
-<h3>Buy Movie Tickets N500.00</h3>
-<form method="POST" action="{{ route('pay') }}" id="paymentForm">
-    {{ csrf_field() }}
-    <input type="hidden" name="amount" value="500" /> <!-- Replace the value with your transaction amount -->
-    <input type="hidden" name="payment_method" value="both" /> <!-- Can be card, account, both -->
-    <input type="hidden" name="description" value="Beats by Dre. 2017" /> <!-- Replace the value with your transaction description -->
-    <input type="hidden" name="country" value="NG" /> <!-- Replace the value with your transaction country -->
-    <input type="hidden" name="currency" value="NGN" /> <!-- Replace the value with your transaction currency -->
-    <input type="hidden" name="email" value="test@test.com" /> <!-- Replace the value with your customer email -->
-    <input type="hidden" name="firstname" value="Oluwole" /> <!-- Replace the value with your customer firstname -->
-    <input type="hidden" name="lastname" value="Adebiyi" /> <!-- Replace the value with your customer lastname -->
-    <input type="hidden" name="metadata" value="{{ json_encode($array) }}" > <!-- Meta data that might be needed to be passed to the Rave Payment Gateway -->
-    <input type="hidden" name="phonenumber" value="090929992892" /> <!-- Replace the value with your customer phonenumber -->
-    {{-- <input type="hidden" name="paymentplan" value="362" /> <!-- Ucomment and Replace the value with the payment plan id --> --}}
-    {{-- <input type="hidden" name="ref" value="MY_NAME_5uwh2a2a7f270ac98" /> <!-- Ucomment and  Replace the value with your transaction reference. It must be unique per transaction. You can delete this line if you want one to be generated for you. --> --}}
-    {{-- <input type="hidden" name="logo" value="https://pbs.twimg.com/profile_images/915859962554929153/jnVxGxVj.jpg" /> <!-- Replace the value with your logo url (Optional, present in .env)--> --}}
-    {{-- <input type="hidden" name="title" value="Flamez Co" /> <!-- Replace the value with your transaction title (Optional, present in .env) --> --}}
-    {{-- <input type="submit" value="Buy"  /> --}}
-{{-- </form> --}}
+<!DOCTYPE html>
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="csrf-token" content="{{ csrf_token() }}">
+
+        <title>{{ 'Primrosepathcapital  || ' . Auth::user()->username }}</title>
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap">
+
+        <!-- Styles -->
+        <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+
+        <!-- Scripts -->
+        <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.7.0/dist/alpine.js" defer></script>
+        @stack('admin.layouts.style')
+    </head>
+    <body >
+
+
+
+{{-- <form method="POST" action="{{ route('pay') }}" accept-charset="UTF-8" class="form-horizontal" role="form" id="paymentForm" >
+    <div class="row" style="margin-bottom:40px;">
+        <div class="col-md-8 col-md-offset-2">
+            <p>
+                <div>
+                    Primose Path capital investment, gold plan #100,000
+                </div>
+            </p>
+            {{-- <input type="hidden" name="email" value="{{ Auth::user()->email }}"> {{-- required --}}
+            {{-- <input type="hidden" name="orderID" value="345">
+            <input type="hidden" name="amount" value="1000"> {{-- required in kobo --}}
+            {{-- <input type="hidden" name="quantity" value="1">
+            <input type="hidden" name="currency" value="NGN">
+            <input type="hidden" name="metadata" value="{{ json_encode($array = ['key_name' => 'value',]) }}" > {{-- For other necessary things you want to add to your payload. it is optional though --}}
+            {{-- <input type="hidden" name="reference" value="{{ Paystack::genTranxRef() }}"> required --}}
+
+
+            {{-- <input type="hidden" name="_token" value="{{ csrf_token() }}"> employ this in place of csrf_field only in laravel 5.0 --}}
+
+            {{-- <p> --}}
+                {{-- <button  class="btn btn-success btn-lg btn-block" type="submit" value="Pay Now!">
+                    <i class="fa fa-plus-circle fa-lg"></i> Pay Now!
+                </button>
+            </p>
+        </div>
+    </div>
+</form> --}}
+<form id="payment">
+    <script src="https://js.paystack.co/v1/inline.js"></script>
+   <p> Primose Path capital investment, gold plan #100,000</p>
+    <button type="button" onclick="payWithPaystack()"> Pay </button>
+  </form>
+
+  <script src="http://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns" crossorigin="anonymous"></script>
+
+  <script>
+    function payWithPaystack(){
+      var handler = PaystackPop.setup({
+        key: 'pk_test_afb69a3bcea2698da591dafe42b2664233ac9c2e',
+        email: '{{ Auth::user()->email }}',
+        amount: 10000000,
+        currency: "NGN",
+        ref: ''+Math.floor((Math.random() * 1000000000) + 1), // generates a pseudo-unique reference. Please replace with a reference you generated. Or remove the line entirely so our API will generate one for you
+        firstname: '{{ Auth::user()->first_name }}',
+        lastname: '{{ Auth::user()->last_name }}',
+        // label: "Optional string that replaces customer email"
+        metadata: {
+           custom_fields: [
+              {
+                  display_name: "Mobile Number",
+                  variable_name: "mobile_number",
+                  value: "+2348012345678"
+              }
+           ]
+        },
+        callback: function(response){
+            alert('success. transaction ref is ' + response.reference);
+            console.log(response);
+
+            $(document).ready(function () {
+                let data = {
+                    firstname: '{{ Auth::user()->first_name }}',
+                    lastname: '{{ Auth::user()->last_name }}',
+                    email: '{{ Auth::user()->email }}',
+                    amount: 10000000,
+                    ref: response.reference,
+                    status: response.status,
+                    message: response.message
+                };
+                console.log(data);
+                // var data = {handler : handler};
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+                });
+                $.ajax({
+                    type: 'POST',
+                    url: '/api/save',
+                    data: JSON.stringify(data),
+                    processData: true,
+                    contentType: false,
+                    success: function (response) {
+                        console.log(response)
+                    },
+                    error:function(error){
+                        console.log(error)
+                        alert("Data Not saved");
+                    }
+                });
+
+            });
+        },
+
+        onClose: function(){
+            alert('window closed');
+        }
+      });
+
+      handler.openIframe();
+    }
+
+   </script>
+</body>
+</html>

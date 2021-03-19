@@ -163,6 +163,7 @@ return [
         Illuminate\View\ViewServiceProvider::class,
         Intervention\Image\ImageServiceProvider::class,
         KingFlamez\Rave\RaveServiceProvider::class,
+        Unicodeveloper\Paystack\PaystackServiceProvider::class,
         /*
          * Package Service Providers...
          */
@@ -226,6 +227,7 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
         'Image' => Intervention\Image\Facades\Image::class,
         'Rave' => KingFlamez\Rave\Facades\Rave::class,
+        'Paystack' => Unicodeveloper\Paystack\Facades\Paystack::class,
 
     ],
 

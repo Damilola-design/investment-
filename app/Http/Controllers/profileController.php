@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\enquiries;
+use App\Transaction_histories;
 use App\Mail\ContactMail;
 use App\profile;
+use App\Providers\profile as ProvidersProfile;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
@@ -54,7 +56,7 @@ class profileController extends Controller
      */
     public function __construct()
     {
-         $this->middleware('auth');
+        //  $this->middleware('auth');
     }
 
     /**
@@ -66,7 +68,20 @@ class profileController extends Controller
 
     public function dashboard()
     {
-        return view('customer.index');
+
+
+       if(Auth::user()->role === 'admin'){
+            return view('admin.index');
+        }
+
+        $user_id = Auth::user()->id;
+        $profile = DB::table('users')
+                 ->join('profiles', 'users.id', '=', 'profiles.user_id')
+                 ->select('users.*', 'profiles.*')
+                 ->where(['profiles.user_id' => $user_id])
+                 ->first();
+
+         return view('customer.index', ['profile' => $profile]);
 
     }
 
@@ -119,6 +134,10 @@ class profileController extends Controller
         return view('customer.update');
     }
 
+    public function mypay(){
+        return view('customer.pay');
+    }
+
     public function gold()
     {
         return view('customer.gold');
@@ -162,45 +181,89 @@ class profileController extends Controller
             $location1 = $path.'/'.$imageName1;
             Storage::disk('public')->put($location1,  File::get(request()->passport));
 
-            $gold_invest = New profile();
 
-            $gold_invest->full_name = $request->full_name;
-            $gold_invest->email = $request->email;
-            $gold_invest->amount = $request->amount;
-            $gold_invest->plan = $request->plan;
-            $gold_invest->Period = $request->Period;
-            $gold_invest->country = $request->country;
-            $gold_invest->address = $request->address;
-            $gold_invest->email = $request->email;
-            $gold_invest->number = $request->number;
-            $gold_invest->valid_id = $location;
-            $gold_invest->passport = $location1;
-            $gold_invest->status = $request->status;
-            $gold_invest->deformity = $request->deformity;
-            $gold_invest->details = $request->details;
-            $gold_invest->ill = $request->ill;
-            $gold_invest->physician = $request->physician;
-            $gold_invest->bank_name = $request->bank_name;
-            $gold_invest->acc_name = $request->acc_name;
-            $gold_invest->acc_number = $request->acc_number;
-            $gold_invest->interest_payment = $request->interest_payment;
-            $gold_invest->refer_name = $request->refer_name;
-            $gold_invest->cid_number = $request->cid_number;
-            $gold_invest->cid_number = $request->cid_number;
-            $gold_invest->refer_number = $request->refer_number;
-            $gold_invest->terms = $request->terms;
-            $gold_invest->save();
+                //get current user ID
+                 $authId = Auth::user()->id;
 
-            if( $gold_invest->save()==true){
+                 //find current user from profile table
+                //  $gold_invest = profile::where('user_id','=',$authId);
 
-                //define your admin email
-                // $admin_email = 'admin@primrosepathcapital.org';
+                //  dd($gold_invest);
 
-                // //call Mailable
-                // Mail::to($admin_email)->send(new ContactMail($data));
-                return redirect("/pay");
-            }else
-            return redirect("/customer-care")->with('Error', 'Your Message was not send!!!');
+             //if current user is found ,update the database
+
+                // $authId = Auth::user()->id;
+
+                //find current user from profile table
+                 $gold_invest = new profile();
+
+                $gold_invest->user_id = $authId;
+                $gold_invest->full_name = $request->full_name;
+                $gold_invest->email = $request->email;
+                $gold_invest->amount = $request->amount;
+                $gold_invest->plan = $request->plan;
+                $gold_invest->Period = $request->Period;
+                $gold_invest->country = $request->country;
+                $gold_invest->address = $request->address;
+                $gold_invest->email = $request->email;
+                $gold_invest->number = $request->number;
+                $gold_invest->valid_id = $location;
+                $gold_invest->passport = $location1;
+                $gold_invest->status = $request->status;
+                $gold_invest->deformity = $request->deformity;
+                $gold_invest->details = $request->details;
+                $gold_invest->ill = $request->ill;
+                $gold_invest->physician = $request->physician;
+                $gold_invest->bank_name = $request->bank_name;
+                $gold_invest->acc_name = $request->acc_name;
+                $gold_invest->acc_number = $request->acc_number;
+                $gold_invest->interest_payment = $request->interest_payment;
+                $gold_invest->refer_name = $request->refer_name;
+                $gold_invest->cid_number = $request->cid_number;
+                $gold_invest->cid_number = $request->cid_number;
+                $gold_invest->refer_number = $request->refer_number;
+                $gold_invest->terms = $request->terms;
+
+               //dd($gold_invest);
+             $gold_invest->save();
+                if( $gold_invest->save()==true){
+
+                        return redirect("/mypay");
+                     }
+                     else
+                     return redirect("/customer-care")->with('Error', 'Your Message was not send!!!');
+    }
+
+    public function save(Request $request)
+    {
+        dd($request);
+        $this->validate($request, [
+            'message' => '',
+            'trxref' => '',
+            'status' => '',
+            'transaction' => '',
+            'email' => '',
+            'firstname' => '',
+            'lastname' => ''
+
+            ]);
+
+        $trans = new Transaction_histories;
+
+        //  $trans = $request->all();
+        // $trans->message = $request->message;
+        // $trans->trxref = $request->trxref;
+        // $trans->status = $request->status;
+        // $trans->transaction = $request->transaction;
+        // $trans->email = $request->email;
+        // $trans->firstname = $request->firstname;
+        // $trans->lastname = $request->lastname;
+        //  dd($trans);
+        $trans->save();
+
+
+        return response()->json(['result'=>$trans]);
+
     }
 
    public function update(Request $request, User $id)

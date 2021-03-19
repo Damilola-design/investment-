@@ -20,7 +20,7 @@ class User extends Authenticatable
      */
 
     protected $fillable = [
-        'username', 'email', 'termsCheckbox', 'password', 'first_name', 'last_name', 'nickname', 'address', 'number', 'country', 'gender', 'date', 'bank', 'acc_number',
+        'username', 'email', 'termsCheckbox', 'password', 'first_name', 'last_name', 'nickname', 'address', 'number', 'country', 'gender', 'date', 'bank', 'acc_number', 'role',
     ];
 
 
@@ -46,5 +46,11 @@ class User extends Authenticatable
     protected $dispatchesEvents = [
         'created' => UserResgisterEvent::class,
     ];
+
+    public function profile()
+    {
+        return $this->hasOne(profile::class);
+
+    }
 
 }

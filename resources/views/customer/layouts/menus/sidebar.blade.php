@@ -8,8 +8,9 @@
           <ul class="nav side-menu">
             <li>
                 <a href="{{ route('dashboard') }}"><i class="fa fa-home"></i> My Account </a>
+
             </li>
-            <li>
+           <li>
                 <a href="{{ route('investments') }}"><i class="fa fa-edit"></i> Investments </a>
             </li>
             <li>
