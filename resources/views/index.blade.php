@@ -34,8 +34,8 @@
               <use xlink:href="#mainHeroSVG1"/>
             </clipPath>
             <g transform="matrix(1 0 0 1 0 0)" clip-path="url(#mainHeroSVG2)">
-              <image width="750" height="750" href="assets/img/cryptoinvest.jpg" transform="matrix(1.4462 0 0 1.4448 52.8755 0)"></image>
-            </g>
+                <image width="750" height="750" href="assets/img/cryptoinvest.jpg" transform="matrix(1.4462 0 0 1.4448 52.8755 0)"></image>
+              </g>
           </svg>
         </figure>
         <!-- End SVG Shape -->

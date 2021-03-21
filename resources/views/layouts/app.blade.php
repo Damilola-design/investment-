@@ -136,7 +136,12 @@
   <!-- ========== END HEADER ========== -->
 
   <!-- ========== MAIN CONTENT ========== -->
-<div class="mt-5 mb-5">@yield('content')</div>
+<div class="mt-5 mb-5">
+
+    @yield('content')
+
+</div>
+
   <!-- ========== END MAIN CONTENT ========== -->
 
   <!-- ========== FOOTER ========== -->
@@ -151,9 +156,9 @@
                 <img class="brand" src="assets/img/primose.jpg" alt="Logo">
             </a>
             </div>
+
             <!-- End Logo -->
           </div>
-
           <div class="mb-5 col-6 col-md-3 col-lg mb-lg-0">
             <h5 class="text-white">Learn More</h5>
 
@@ -191,11 +196,16 @@
           </div>
 
         </div>
+        <div class="float-right">
+            <a href="" aria-label="Front">
+              <img class="brand position-absolute rounded-circle" src="assets/img/download.png"  alt="Logo" style="max-width: 70px">
+          </a>
+          </div>
       </div>
 
       <hr class="my-0 opacity-xs">
-
     </div>
+
   </footer>
   <!-- ========== END FOOTER ========== -->
 
