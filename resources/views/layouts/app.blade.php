@@ -197,8 +197,11 @@
 
         </div>
         <div class="float-right">
-            <a href="" aria-label="Front">
-              <img class="brand position-absolute rounded-circle" src="assets/img/download.png"  alt="Logo" style="max-width: 70px">
+            <a href="https://api.whatsapp.com/send?phone=2348066586882&text=" aria-label="Front">
+              <img class="brand rounded-circle" src="assets/img/download.png"  alt="Logo" style="max-width: 70px;  php;
+              position: fixed;
+              bottom:0;
+              right:0;">
           </a>
           </div>
       </div>
