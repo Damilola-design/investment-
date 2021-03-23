@@ -72,16 +72,14 @@
 
     <script>
         let fn = (function() {
-            let form = $('form');
             return {
-
                 submitForm: function(data) {
                     // post request
                     $.post($('form').attr('action'), data, function(response) {
                         alert(JSON.stringify(response));
                     });
-
                 },
+
                 payWithPaystack: function(e) {
                     e.preventDefault();
                     let _this = this;
