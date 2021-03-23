@@ -32,24 +32,24 @@ class profileController extends Controller
             'last_name' => ['required', 'string', 'min:6'],
             'gender' => 'required',
             'termsCheckbox' => 'required',
-            ]);
+        ]);
 
-            $data = New User();
+        $data = new User();
 
-            $data->username = $request->username;
-            $data->email = $request->email;
-            $data->password = $request->password;
-            $data->first_name = $request->first_name;
-            $data->last_name = $request->last_name;
-            $data->gender = $request->gender;
-            $data->termsCheckbox = $request->termsCheckbox;
+        $data->username = $request->username;
+        $data->email = $request->email;
+        $data->password = $request->password;
+        $data->first_name = $request->first_name;
+        $data->last_name = $request->last_name;
+        $data->gender = $request->gender;
+        $data->termsCheckbox = $request->termsCheckbox;
 
-            $data->save();
-           Auth::attempt(['email' => $request->email, 'password' => $request->password]);
-            // return response()->json(['message'=>'successful'],200);
-             return redirect("/dashboard");
+        $data->save();
+        Auth::attempt(['email' => $request->email, 'password' => $request->password]);
+        // return response()->json(['message'=>'successful'],200);
+        return redirect("/dashboard");
     }
-     /**
+    /**
      * Create a new controller instance.
      *
      * @return void
@@ -70,19 +70,18 @@ class profileController extends Controller
     {
 
 
-       if(Auth::user()->role === 'admin'){
+        if (Auth::user()->role === 'admin') {
             return view('admin.index');
         }
 
         $user_id = Auth::user()->id;
         $profile = DB::table('users')
-                 ->join('profiles', 'users.id', '=', 'profiles.user_id')
-                 ->select('users.*', 'profiles.*')
-                 ->where(['profiles.user_id' => $user_id])
-                 ->first();
+            ->join('profiles', 'users.id', '=', 'profiles.user_id')
+            ->select('users.*', 'profiles.*')
+            ->where(['profiles.user_id' => $user_id])
+            ->first();
 
-         return view('customer.index', ['profile' => $profile]);
-
+        return view('customer.index', ['profile' => $profile]);
     }
 
     public function profile()
@@ -107,25 +106,25 @@ class profileController extends Controller
             'email' => 'required|email',
             'subject' => 'required',
             'message' => 'required'
-            ]);
+        ]);
 
-            $enquiry = New enquiries();
+        $enquiry = new enquiries();
 
-            $enquiry->email = $request->email;
-            $enquiry->subject = $request->subject;
-            $enquiry->message = $request->message;
+        $enquiry->email = $request->email;
+        $enquiry->subject = $request->subject;
+        $enquiry->message = $request->message;
 
-            $enquiry->save();
+        $enquiry->save();
 
-            if( $enquiry->save()==true){
+        if ($enquiry->save() == true) {
 
-                //define your admin email
-                $admin_email = 'admin@primrosepathcapital.org';
+            //define your admin email
+            $admin_email = 'admin@primrosepathcapital.org';
 
-                //call Mailable
-                Mail::to($admin_email)->send(new ContactMail($data));
-                return redirect("/customer-care")->with('success', 'Your Message was successfully send!!!');
-            }else
+            //call Mailable
+            Mail::to($admin_email)->send(new ContactMail($data));
+            return redirect("/customer-care")->with('success', 'Your Message was successfully send!!!');
+        } else
             return redirect("/customer-care")->with('Error', 'Your Message was not send!!!');
     }
 
@@ -134,7 +133,8 @@ class profileController extends Controller
         return view('customer.update');
     }
 
-    public function mypay(){
+    public function mypay()
+    {
         return view('customer.pay');
     }
 
@@ -169,84 +169,77 @@ class profileController extends Controller
             'cid_number' => '',
             'refer_number' => '',
             'terms' => 'required'
-            ]);
+        ]);
 
-            $imageName = (time()).'.'.(request()->valid_id)->getClientOriginalExtension();
-            $path = "uploads";
-            $location = $path.'/'.$imageName;
-            Storage::disk('public')->put($location,  File::get(request()->valid_id));
+        $imageName = (time()) . '.' . (request()->valid_id)->getClientOriginalExtension();
+        $path = "uploads";
+        $location = $path . '/' . $imageName;
+        Storage::disk('public')->put($location,  File::get(request()->valid_id));
 
-            $imageName1 = (time()+1).'.'.(request()->passport)->getClientOriginalExtension();
-            $path = "uploads";
-            $location1 = $path.'/'.$imageName1;
-            Storage::disk('public')->put($location1,  File::get(request()->passport));
+        $imageName1 = (time() + 1) . '.' . (request()->passport)->getClientOriginalExtension();
+        $path = "uploads";
+        $location1 = $path . '/' . $imageName1;
+        Storage::disk('public')->put($location1,  File::get(request()->passport));
 
 
-                //get current user ID
-                 $authId = Auth::user()->id;
+        //get current user ID
+        $authId = Auth::user()->id;
 
-                 //find current user from profile table
-                //  $gold_invest = profile::where('user_id','=',$authId);
+        //find current user from profile table
+        //  $gold_invest = profile::where('user_id','=',$authId);
 
-                //  dd($gold_invest);
+        //  dd($gold_invest);
 
-             //if current user is found ,update the database
+        //if current user is found ,update the database
 
-                // $authId = Auth::user()->id;
+        // $authId = Auth::user()->id;
 
-                //find current user from profile table
-                 $gold_invest = new profile();
+        //find current user from profile table
+        $gold_invest = new profile();
 
-                $gold_invest->user_id = $authId;
-                $gold_invest->full_name = $request->full_name;
-                $gold_invest->email = $request->email;
-                $gold_invest->amount = $request->amount;
-                $gold_invest->plan = $request->plan;
-                $gold_invest->Period = $request->Period;
-                $gold_invest->country = $request->country;
-                $gold_invest->address = $request->address;
-                $gold_invest->email = $request->email;
-                $gold_invest->number = $request->number;
-                $gold_invest->valid_id = $location;
-                $gold_invest->passport = $location1;
-                $gold_invest->status = $request->status;
-                $gold_invest->deformity = $request->deformity;
-                $gold_invest->details = $request->details;
-                $gold_invest->ill = $request->ill;
-                $gold_invest->physician = $request->physician;
-                $gold_invest->bank_name = $request->bank_name;
-                $gold_invest->acc_name = $request->acc_name;
-                $gold_invest->acc_number = $request->acc_number;
-                $gold_invest->interest_payment = $request->interest_payment;
-                $gold_invest->refer_name = $request->refer_name;
-                $gold_invest->cid_number = $request->cid_number;
-                $gold_invest->cid_number = $request->cid_number;
-                $gold_invest->refer_number = $request->refer_number;
-                $gold_invest->terms = $request->terms;
+        $gold_invest->user_id = $authId;
+        $gold_invest->full_name = $request->full_name;
+        $gold_invest->email = $request->email;
+        $gold_invest->amount = $request->amount;
+        $gold_invest->plan = $request->plan;
+        $gold_invest->Period = $request->Period;
+        $gold_invest->country = $request->country;
+        $gold_invest->address = $request->address;
+        $gold_invest->email = $request->email;
+        $gold_invest->number = $request->number;
+        $gold_invest->valid_id = $location;
+        $gold_invest->passport = $location1;
+        $gold_invest->status = $request->status;
+        $gold_invest->deformity = $request->deformity;
+        $gold_invest->details = $request->details;
+        $gold_invest->ill = $request->ill;
+        $gold_invest->physician = $request->physician;
+        $gold_invest->bank_name = $request->bank_name;
+        $gold_invest->acc_name = $request->acc_name;
+        $gold_invest->acc_number = $request->acc_number;
+        $gold_invest->interest_payment = $request->interest_payment;
+        $gold_invest->refer_name = $request->refer_name;
+        $gold_invest->cid_number = $request->cid_number;
+        $gold_invest->cid_number = $request->cid_number;
+        $gold_invest->refer_number = $request->refer_number;
+        $gold_invest->terms = $request->terms;
 
-               //dd($gold_invest);
-             $gold_invest->save();
-                if( $gold_invest->save()==true){
+        //dd($gold_invest);
+        $gold_invest->save();
+        if ($gold_invest->save() == true) {
 
-                        return redirect("/mypay");
-                     }
-                     else
-                     return redirect("/customer-care")->with('Error', 'Your Message was not send!!!');
+            return redirect("/mypay");
+        } else
+            return redirect("/customer-care")->with('Error', 'Your Message was not send!!!');
     }
 
     public function save(Request $request)
     {
-        dd($request);
-        $this->validate($request, [
-            'message' => '',
-            'trxref' => '',
-            'status' => '',
-            'transaction' => '',
-            'email' => '',
-            'firstname' => '',
-            'lastname' => ''
+        // get user data
+        $user = User::where('email', request()->email)->first();
 
-            ]);
+        // return all request entry
+        return request()->all();
 
         $trans = new Transaction_histories;
 
@@ -262,18 +255,17 @@ class profileController extends Controller
         $trans->save();
 
 
-        return response()->json(['result'=>$trans]);
-
+        return response()->json(['result' => $trans]);
     }
 
-   public function update(Request $request, User $id)
-     {
+    public function update(Request $request, User $id)
+    {
 
 
-        $this->validate($request,[
+        $this->validate($request, [
             'username' => 'required|min:6',
-           'password' => 'required|min:6',
-           'password_confirmation' => 'required| same:password',
+            'password' => 'required|min:6',
+            'password_confirmation' => 'required| same:password',
             'first_name' => 'required',
             'last_name' => 'required',
             'nickname' => 'required',
@@ -290,7 +282,7 @@ class profileController extends Controller
             ->where('id', Auth::user()->id)
             ->update([
                 'username' => $request->username,
-               // 'email' => $request->email,
+                // 'email' => $request->email,
                 'password' => Hash::make($request->password),
                 'last_name' => $request->last_name,
                 'first_name' => $request->first_name,
@@ -304,12 +296,11 @@ class profileController extends Controller
                 'acc_number' => $request->acc_number,
             ]);
 
-     return redirect("/edit-user")->with('success', 'User has been updated!!');
+        return redirect("/edit-user")->with('success', 'User has been updated!!');
     }
 
     public function logout()
     {
         $this->middleware('guest')->except('logout');
     }
-
 }
